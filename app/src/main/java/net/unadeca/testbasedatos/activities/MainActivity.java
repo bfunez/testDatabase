@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -15,15 +17,19 @@ import net.unadeca.testbasedatos.R;
 import net.unadeca.testbasedatos.database.models.Arbolito;
 import net.unadeca.testbasedatos.database.models.Arbolito_Table;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Arrays;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+    private  ListView lista;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        lista = findViewById(R.id.lista);
+        setAdapter();
         Arbolito pino = new Arbolito();
         pino.altura = 4;
         pino.fecha_plantado = "2019-01-01";
@@ -81,4 +87,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private String[] getArbolitos(){
+        List<Arbolito> listado = SQLite.select().from(Arbolito.class).queryList();
+        String[] array = new String[listado.size()];
+        for(int c= 0; c< listado.size(); c++){
+            array[c]= listado.get(c).toString();
+        }
+        return array;
+    }
+
+    //Establecer adaptador
+    private void setAdapter(){
+        lista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getArbolitos()));
+    }
+
+
 }
