@@ -1,8 +1,10 @@
 package net.unadeca.testbasedatos.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -59,9 +61,12 @@ public class MainActivity extends AppCompatActivity {
 //                cedro.save();
 
                 //ej 2
-                long contadorArbolitos = SQLite.selectCountOf().from(Arbolito.class).count();
-                Snackbar.make(view, "en este momento hay "+ contadorArbolitos +" arbolitos registrados", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                long contadorArbolitos = SQLite.selectCountOf().from(Arbolito.class).count();
+//                Snackbar.make(view, "en este momento hay "+ contadorArbolitos +" arbolitos registrados", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+                //implementacion del dialog
+                mostrarDialog();
             }
         });
     }
@@ -100,6 +105,26 @@ public class MainActivity extends AppCompatActivity {
     //Establecer adaptador
     private void setAdapter(){
         lista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getArbolitos()));
+    }
+
+    public void mostrarDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Este es un mensaje de prueba")
+                .setTitle("Alerta!!!")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       dialog.dismiss();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialogo = builder.create();
+        dialogo.show();
     }
 
 
