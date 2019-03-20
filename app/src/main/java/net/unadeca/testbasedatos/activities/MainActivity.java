@@ -189,5 +189,4 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(view, "hemos borrado el listado de arbolitos!", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
-
 }
