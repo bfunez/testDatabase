@@ -1,5 +1,6 @@
 package net.unadeca.testbasedatos.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,8 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -24,6 +30,7 @@ import net.unadeca.testbasedatos.R;
 import net.unadeca.testbasedatos.database.models.Arbolito;
 import net.unadeca.testbasedatos.database.models.Arbolito_Table;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,9 +118,16 @@ public class MainActivity extends AppCompatActivity {
         return array;
     }
 
+    private List<Arbolito> getListArbolitos(){
+        return  SQLite.select().from(Arbolito.class).queryList();
+    }
+
     //Establecer adaptador
     private void setAdapter(){
-        lista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getArbolitos()));
+        //Adaptador de arreglo
+        //lista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getArbolitos()));
+
+        lista.setAdapter(new CustomAdapter(getListArbolitos(), getApplicationContext(), view));
     }
 
     public void mostrarDialog(){
@@ -189,4 +203,10 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(view, "hemos borrado el listado de arbolitos!", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
+
+
+
+
+
 }
